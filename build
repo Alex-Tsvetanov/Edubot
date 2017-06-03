@@ -1,0 +1,1 @@
+g++ main.cpp -o main.exe -lfcgi++ -lfcgi -lcurl -lcurlpp -pthread -lstdc++fs -lmysqlclient -I./
