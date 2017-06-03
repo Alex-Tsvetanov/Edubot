@@ -74,10 +74,17 @@ namespace Resources
 
 			for (auto& x : ln)
 			{
-				pre_result [x.first] = 0.0;
-				for (auto& neighbor : x.second)
-					pre_result [x.first] += current [neighbor.first] * neighbor.second;
-				total += pre_result [x.first];
+				if (current [x.first] == 1.0)
+				{
+					pre_result [x.first] = -1.0;
+				}
+				else
+				{
+					pre_result [x.first] = 0.0;
+					for (auto& neighbor : x.second)
+						pre_result [x.first] += current [neighbor.first] * neighbor.second;
+					total += pre_result [x.first];
+				}
 			}
 
 			std::vector < Resources::resource > ans;
