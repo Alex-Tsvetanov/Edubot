@@ -50,7 +50,7 @@ namespace Resources
 						ln [x.first][y.first] *= success [x.first][y.first] / all [x.first];
 				else
 					for (auto& y : ln)
-						ln [x.first][y.first] = 0;
+						ln [x.first][y.first] = 0.1;
 		}
 
 		/*static */std::map < Resources::resource_key, double > transform (std::vector < Resources::resource_key > visited)
@@ -76,7 +76,7 @@ namespace Resources
 			{
 				if (current [x.first] == 1.0)
 				{
-					pre_result [x.first] = -1.0;
+					pre_result [x.first] = 0.5;
 				}
 				else
 				{
