@@ -95,8 +95,11 @@ namespace Resources
 				if (total != 0)
 					ans.push_back (Resources::resource (x.first, x.second / total));
 				else
-					ans.push_back (Resources::resource (x.first, rand () / rand ()));
-
+				{
+					int a = rand (), b = rand ();
+					b += a;
+					ans.push_back (Resources::resource (x.first, a / b));
+				}
 
 			std::sort (ans.begin (), ans.end (), [](Resources::resource a, Resources::resource b) 
 					{
