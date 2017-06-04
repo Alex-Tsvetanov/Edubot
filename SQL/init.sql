@@ -7,6 +7,10 @@
 -- Server version: 10.1.23-MariaDB
 -- PHP Version: 7.1.5
 
+USE `AIT`;
+
+DROP TABLE `Visits`;
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;

@@ -5,6 +5,7 @@
 #include <vector>
 #include <algorithm>
 #include <lib/database.hpp>
+#include <stdlib.h>
 
 namespace Resources
 {
@@ -18,14 +19,15 @@ namespace Resources
 			for (auto& x : resources)
 				for (auto& y : resources)
 					if (x.id != y.id or x.type != y.type)
-						ln [x][y] = 1;
+						ln [x][y] = 0;
 					else
 						ln [x][y] = 0;
 		}
 		/*static */void update ()
 		{
 			//std::cout << "UPDATE()" << std::endl;
-			auto res = MySQL::client.result ("SELECT `IdUser`, `Type`, `IdResource` FROM `Visits` ORDER BY `ID` DESC LIMIT 10000", "", "");
+			//auto res = MySQL::client.result ("SELECT `IdUser`, `Type`, `IdResource` FROM `Visits` ORDER BY `ID` DESC LIMIT 10000", "", "");
+			auto res = MySQL::client.result ("SELECT `IdUser`, `Type`, `IdResource` FROM `Visits`", "", "");
 			std::map < Resources::resource_key, std::map < Resources::resource_key, int > > success;
 			std::map < Resources::resource_key, int > all;
 			std::map < std::string, Resources::resource_key > users;
@@ -47,10 +49,10 @@ namespace Resources
 			for (auto& x : ln)
 				if (all [x.first] != 0)
 					for (auto& y : ln)
-						ln [x.first][y.first] *= success [x.first][y.first] / all [x.first];
+						ln [x.first][y.first] = (double)success [x.first][y.first] / (double)all [x.first];
 				else
 					for (auto& y : ln)
-						ln [x.first][y.first] = 0.1;
+						ln [x.first][y.first] = 0;
 		}
 
 		/*static */std::map < Resources::resource_key, double > transform (std::vector < Resources::resource_key > visited)
@@ -69,14 +71,15 @@ namespace Resources
 
 		/*static */std::vector < Resources::resource > next (std::map < Resources::resource_key, double > current)
 		{
+			update ();
 			double total = 0.0;
 			std::map < Resources::resource_key, double > pre_result;
 
 			for (auto& x : ln)
 			{
-				if (current [x.first] == 1.0)
+				if (1.0 - current [x.first] < 1e-4)
 				{
-					pre_result [x.first] = 0.5;
+					pre_result [x.first] = 0.123456;
 				}
 				else
 				{
@@ -89,16 +92,20 @@ namespace Resources
 
 			std::vector < Resources::resource > ans;
 			for (auto& x : pre_result)
-				if (total > 1e-7)
+				if (total != 0)
 					ans.push_back (Resources::resource (x.first, x.second / total));
 				else
-					ans.push_back (Resources::resource (x.first, x.second));
+					ans.push_back (Resources::resource (x.first, rand () / rand ()));
 
 
 			std::sort (ans.begin (), ans.end (), [](Resources::resource a, Resources::resource b) 
 					{
 						if (a.goody == b.goody)
-							return a.key.id < b.key.id;
+						{
+							if (a.key.type == b.key.type)
+								return a.key.id < b.key.id;
+							return a.key.type < b.key.type;
+						}
 						return a.goody > b.goody;
 					}
 				);
