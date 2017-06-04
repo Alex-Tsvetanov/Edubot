@@ -106,6 +106,26 @@ int main ()
 					Throw (e.what ());
 				}
 			}
+			else if (proc.query_string ["type"] == "receive")
+			{
+				try
+				{
+					auto x = Infocourse.result ("SELECT `ID` FROM `Users` WHERE `Email`='", proc.query_string ["person"], "'");
+					if (x.size () == 0)
+						throw "User not found";
+					std::string user_id = x [0][0];
+					x = Infocourse.result ("SELECT `UniqueID` FROM `Videos` WHERE `ExamLink`='", proc.query_string ["link"], "'");
+					if (x.size () == 0)
+						throw "User not found";
+					std::string resource_id = x [0][0];
+					
+					MySQL::client.result ("INSERT INTO `Visits` (`IdUser`,`Type`,`IdResource`) VALUE ('" + user_id + "', '2', '" + resource_id, "", "')");
+				}
+				catch (exception& e)
+				{
+					Throw (e.what ());
+				}
+			}
 		}
 		if (content) delete []content;
 #if HAVE_IOSTREAM_WITHASSIGN_STREAMBUF
