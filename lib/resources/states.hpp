@@ -77,11 +77,11 @@ namespace Resources
 
 			for (auto& x : ln)
 			{
-				if (1.0 - current [x.first] < 1e-4)
-				{
-					pre_result [x.first] = 0.123456;
-				}
-				else
+				//if (1.0 - current [x.first] < 1e-4)
+				//{
+				//	pre_result [x.first] = 0.123456;
+				//}
+				//else
 				{
 					pre_result [x.first] = 0.0;
 					for (auto& neighbor : x.second)
@@ -96,8 +96,9 @@ namespace Resources
 					ans.push_back (Resources::resource (x.first, x.second / total));
 				else
 				{
-					int a = rand (), b = rand ();
-					b += a;
+					//int a = rand (), b = rand ();
+					//b += a;
+					int a = 0, b = 1;
 					ans.push_back (Resources::resource (x.first, a / b));
 				}
 

@@ -24,14 +24,7 @@ int main ()
 	}
 
 	//std::cout << "News" << std::endl;
-	for (auto& x : Infocourse.result ("SELECT `UniqueID` FROM `Videos` WHERE `ExamLink`!=\"#\"", "", ""))
-	{
-		all.push_back (Resources::resource_key ("1", x [0]));
-		all.push_back (Resources::resource_key ("2", x [0]));
-	}
-
-	//std::cout << "News" << std::endl;
-	for (auto& x : Infocourse.result ("SELECT `UniqueID` FROM `Videos` WHERE `ExamLink`=\"#\"", "", ""))
+	for (auto& x : Infocourse.result ("SELECT `UniqueID`,`ExamLink` FROM `Videos`", "", ""))
 	{
 		all.push_back (Resources::resource_key ("1", x [0]));
 	}
@@ -148,10 +141,4 @@ int main ()
 	cout.rdbuf(cout_streambuf);
 	cerr.rdbuf(cerr_streambuf);
 #endif
-
-	//person test ("2");
-	//auto x = Resources::States.next (Resources::States.transform (test.get_visitations ()));
-
-	//for (auto y : x)
-	//	std::cout << y.key.id << " " << y.key.type << " " << y.goody << std::endl;
 }
