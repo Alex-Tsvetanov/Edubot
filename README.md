@@ -1,2 +1,2 @@
 # Edubot
-Revolutional AI teacher for Informatics
+Revolutional ML teacher for Informatics
